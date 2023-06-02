@@ -146,8 +146,6 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
     onChange,
     onSelect,
     onSearch,
-    onClose,
-    onOpen,
     getChildren,
     ...rest
   } = props;
@@ -296,20 +294,16 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
     if (!targetRef.current) {
       return;
     }
-
-    onOpen?.();
     setActive(true);
-  }, [onOpen]);
+  }, []);
 
   const handleExited = useCallback(() => {
     if (!targetRef.current) {
       return;
     }
-
-    onClose?.();
     setActive(false);
     setSearchKeyword('');
-  }, [onClose]);
+  }, []);
 
   const handleClose = useCallback(() => {
     triggerRef.current?.close();

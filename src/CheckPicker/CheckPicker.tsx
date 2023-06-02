@@ -115,8 +115,6 @@ const CheckPicker = React.forwardRef(
       onClean,
       onChange,
       onSelect,
-      onClose,
-      onOpen,
       ...rest
     } = props;
 
@@ -263,15 +261,13 @@ const CheckPicker = React.forwardRef(
 
     const handleEntered = useCallback(() => {
       setActive(true);
-      onOpen?.();
-    }, [onOpen]);
+    }, []);
 
     const handleExited = useCallback(() => {
       setSearchKeyword('');
       setFocusItemValue(null);
       setActive(false);
-      onClose?.();
-    }, [onClose, setFocusItemValue, setSearchKeyword]);
+    }, [setFocusItemValue, setSearchKeyword]);
 
     usePublicMethods(ref, { triggerRef, overlayRef, targetRef, listRef });
 

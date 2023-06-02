@@ -167,8 +167,6 @@ const SelectPicker = React.forwardRef(
       onChange,
       onSelect,
       onSearch,
-      onClose,
-      onOpen,
       sort,
       renderValue,
       renderMenu,
@@ -307,14 +305,12 @@ const SelectPicker = React.forwardRef(
       setSearchKeyword('');
       setActive(false);
       onSearch?.('');
-      onClose?.();
-    }, [onClose, setSearchKeyword, onSearch]);
+    }, [setSearchKeyword, onSearch]);
 
     const handleEntered = useCallback(() => {
       setActive(true);
       setFocusItemValue(value);
-      onOpen?.();
-    }, [onOpen, setFocusItemValue, value]);
+    }, [setFocusItemValue, value]);
 
     usePublicMethods(ref, { triggerRef, overlayRef, targetRef, listRef });
 

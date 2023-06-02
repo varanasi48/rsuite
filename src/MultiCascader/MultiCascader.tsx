@@ -149,8 +149,6 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       onSearch,
       onSelect,
       onChange,
-      onOpen,
-      onClose,
       onCheck,
       ...rest
     } = props;
@@ -231,9 +229,8 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
     const [searchKeyword, setSearchKeyword] = useState('');
 
     const handleEntered = useCallback(() => {
-      onOpen?.();
       setActive(true);
-    }, [onOpen]);
+    }, []);
 
     const handleExited = useCallback(() => {
       setActive(false);
@@ -567,7 +564,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
         placement={placement}
         onEnter={createChainedFunction(handleEntered, onEnter)}
         onExited={createChainedFunction(handleExited, onExited)}
-        onExit={createChainedFunction(onClose, onExit)}
+        onExit={onExit}
         speaker={renderDropdownMenu}
       >
         <Component className={classes} style={style}>

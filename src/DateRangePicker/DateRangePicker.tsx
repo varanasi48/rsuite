@@ -191,12 +191,10 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     value: valueProp,
     onChange,
     onClean,
-    onClose,
     onEnter,
     onEntered,
     onExited,
     onOk,
-    onOpen,
     onSelect,
     renderTitle,
     ...rest
@@ -697,16 +695,13 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
   }, [defaultCalendarValue, updateCalendarDateRange, setSelectedDates, value]);
 
   const handleEntered = useCallback(() => {
-    onOpen?.();
     setPickerToggleActive(true);
-  }, [onOpen]);
+  }, []);
 
   const handleExited = useCallback(() => {
     setPickerToggleActive(false);
     setSelectedIdle(true);
-
-    onClose?.();
-  }, [onClose]);
+  }, []);
 
   const isDateDisabled = useCallback(
     (

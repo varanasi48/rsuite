@@ -215,12 +215,10 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       onChange,
       onChangeCalendarDate,
       onClean,
-      onClose,
       onEntered,
       onExited,
       onNextMonth,
       onOk,
-      onOpen,
       onPrevMonth,
       onSelect,
       onToggleMonthDropdown,
@@ -486,14 +484,12 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     );
 
     const handleEntered = useCallback(() => {
-      onOpen?.();
       setActive(true);
-    }, [onOpen]);
+    }, []);
 
     const handleExited = useCallback(() => {
-      onClose?.();
       setActive(false);
-    }, [onClose]);
+    }, []);
 
     // Check whether the time is within the time range of the shortcut option in the toolbar.
     const disabledToolbarHandle = useCallback(
