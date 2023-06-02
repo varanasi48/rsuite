@@ -648,6 +648,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
           if (cause !== OverlayCloseCause.ImperativeHandle) {
             resetCalendarDate();
           }
+          props.onClose?.();
         }}
         onEntered={createChainedFunction(handleEntered, onEntered)}
         onExited={createChainedFunction(handleExited, onExited)}
