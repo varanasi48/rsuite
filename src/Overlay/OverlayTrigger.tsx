@@ -197,6 +197,7 @@ const OverlayTrigger = React.forwardRef(
       onContextMenu,
       onFocus,
       onBlur,
+      onOpen,
       onClose,
       onExited,
       ...rest
@@ -245,8 +246,9 @@ const OverlayTrigger = React.forwardRef(
         }
 
         setOpen(true);
+        onOpen?.();
       },
-      [delayOpen, setOpen]
+      [delayOpen, setOpen, onOpen]
     );
 
     const handleClose = useCallback(

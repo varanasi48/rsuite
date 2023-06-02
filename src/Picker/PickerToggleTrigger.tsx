@@ -13,7 +13,7 @@ export type { OverlayTriggerHandle, PositionChildProps };
 
 export interface PickerToggleTriggerProps
   extends Omit<AnimationEventProps, 'onEntering' | 'onExiting'>,
-    Pick<OverlayTriggerProps, 'speaker' | 'onClose'> {
+    Pick<OverlayTriggerProps, 'speaker' | 'onOpen' | 'onClose'> {
   placement?: TypeAttributes.Placement;
   pickerProps: any;
   open?: boolean;
@@ -29,7 +29,9 @@ export const omitTriggerPropKeys = [
   'onExit',
   'onExiting',
   'open',
+  'onOpen',
   'defaultOpen',
+  'onClose',
   'onHide',
   'container',
   'containerPadding',
