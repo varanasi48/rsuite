@@ -440,8 +440,6 @@ export interface ToggleKeyDownEventProps {
   disabled?: boolean;
   onExit?: (event) => void;
   onKeyDown?: (event) => void;
-  onOpen?: () => void;
-  onClose?: () => void;
   onMenuKeyDown?: (event) => void;
   onMenuPressEnter?: (event) => void;
   onMenuPressBackspace?: (event) => void;
@@ -463,8 +461,6 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
     readOnly,
     disabled,
     onExit,
-    onOpen,
-    onClose,
     onKeyDown,
     onMenuKeyDown,
     onMenuPressEnter,
@@ -473,13 +469,11 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
 
   const handleClose = useCallback(() => {
     triggerRef.current?.close?.();
-    onClose?.();
-  }, [onClose, triggerRef]);
+  }, [triggerRef]);
 
   const handleOpen = useCallback(() => {
     triggerRef.current?.open?.();
-    onOpen?.();
-  }, [onOpen, triggerRef]);
+  }, [triggerRef]);
 
   const handleToggleDropdown = useCallback(() => {
     if (active) {
