@@ -235,37 +235,49 @@ const OverlayTrigger = React.forwardRef(
       };
     }, []);
 
+    const handleOpenChange = useCallback(
+      (nextOpen: boolean, closeCause?: OverlayCloseCause) => {
+        // if the overlay open state is not changed, do not fire the event
+        if (nextOpen === open) return;
+
+        if (nextOpen) {
+          onOpen?.();
+        } else {
+          onClose?.(closeCause);
+        }
+        setOpen(nextOpen);
+      },
+      [open, onOpen, onClose, setOpen]
+    );
+
     const handleOpen = useCallback(
       (delay?: number) => {
         const ms = isUndefined(delay) ? delayOpen : delay;
         if (ms && typeof ms === 'number') {
           return (delayOpenTimer.current = setTimeout(() => {
             delayOpenTimer.current = null;
-            setOpen(true);
+            handleOpenChange(true);
           }, ms));
         }
 
-        setOpen(true);
-        onOpen?.();
+        handleOpenChange(true);
       },
-      [delayOpen, setOpen, onOpen]
+      [delayOpen, handleOpenChange]
     );
 
     const handleClose = useCallback(
-      (delay?: number, callback?: () => void) => {
+      (delay?: number, closeCause?: OverlayCloseCause) => {
         const ms = isUndefined(delay) ? delayClose : delay;
 
         if (ms && typeof ms === 'number') {
           return (delayCloseTimer.current = setTimeout(() => {
             delayCloseTimer.current = null;
-            setOpen(false);
-            callback?.();
+            handleOpenChange(false, closeCause);
           }, ms));
         }
-        setOpen(false);
-        callback?.();
+        handleOpenChange(false, closeCause);
       },
-      [delayClose, setOpen]
+      [delayClose, handleOpenChange]
     );
 
     const handleExited = useCallback(() => {
@@ -280,8 +292,7 @@ const OverlayTrigger = React.forwardRef(
         return overlayRef.current?.child;
       },
       open: handleOpen,
-      close: (delay?: number) =>
-        handleClose(delay, () => onClose?.(OverlayCloseCause.ImperativeHandle)),
+      close: (delay?: number) => handleClose(delay, OverlayCloseCause.ImperativeHandle),
       updatePosition: () => {
         overlayRef.current?.updatePosition?.();
       }
@@ -293,7 +304,7 @@ const OverlayTrigger = React.forwardRef(
     const handleCloseWhenLeave = useCallback(() => {
       // When the cursor is not on the overlay and not on the trigger, it is closed.
       if (!isOnOverlay.current && !isOnTrigger.current) {
-        handleClose();
+        handleClose(undefined, OverlayCloseCause.ClickOutside);
       }
     }, [handleClose]);
 
@@ -465,10 +476,7 @@ const OverlayTrigger = React.forwardRef(
         triggerTarget: triggerRef,
         onClose:
           trigger !== 'none'
-            ? createChainedFunction(
-                handleClose,
-                () => onClose?.(OverlayCloseCause.ClickOutside) as any
-              )
+            ? () => handleClose(undefined, OverlayCloseCause.ClickOutside) as any
             : undefined,
         onExited: createChainedFunction(followCursor ? handleExited : undefined, onExited),
         placement,
